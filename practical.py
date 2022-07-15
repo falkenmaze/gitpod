@@ -51,4 +51,67 @@ def marks():
         grade = 'F'
     print(f"percentage: {percent}\nGrade: {grade}")
 
-marks()
+def mobile():
+    cname = input("Name: ")
+    cnum = input(f"{cname}'s mobile no: ")
+    lcalls = int(input("No. of local calls: "))
+    dusage = int(input("Data usage (in megabytes): "))
+    sms = int(input("No. of SMS: "))
+    std = int(input("No. of STD calls: "))
+    totbill = 0
+    lcost = 0
+    smscost = 0
+    stdcost = 0
+    gbcost = 0
+    if lcalls > 500:
+        excess_calls = lcalls - 500
+        lcalls -= 500
+        lcost = (lcalls * 1.5) + (excess_calls * 2)
+        totbill += lcost
+    else:
+        lcost = (lcalls * 1.5)
+        totbill += lcost
+        
+    if sms > 50:
+        smscost = (sms * 0.5)
+        totbill += smscost 
+    stdcost = (std * 3.5)
+    totbill += stdcost
+    gb = dusage/1024
+    gbcost = (gb * 30)
+    totbill += gbcost
+
+    surcharge = totbill / 20
+    print(f"""
+                TOTAL BILL
+        -----------------------------
+            Name: {cname}
+            Number: {cnum}
+            Cost of local calls: {lcost}
+            Cost of sms: {smscost}
+            Cost of std calls: {stdcost}
+            Cost of data usage: {gbcost:.2f}
+            Surcharge: {surcharge}
+        ------------------------------
+        Total Bill Amount: {totbill+surcharge:.2f}
+    
+    """)
+    mpay = input("\nMode of payment: ")
+    if mpay.lower() == "cash":
+        cgiven = int(input("Amount given by customer: "))
+        if cgiven > (totbill + surcharge):
+            balance = cgiven - (totbill + surcharge)
+        else:
+            balance = 0
+        print(f"Balance: {balance:.2f}")
+    elif mpay.lower() == "paytm":
+        cashback = (totbill + surcharge) / 50
+        print(f"Cashback: {cashback:.2f}")
+    elif mpay.lower() == "visa":
+        cashback = (totbill + surcharge) / 10
+        print(f"Cashback: {cashback:.2f}")
+    else:
+        print("This mode of payment is not supported (supported modes of payment are: cash, paytm and visa)")
+    
+mobile()
+
